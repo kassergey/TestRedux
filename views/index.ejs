@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Redux basic example</title>
+    <script src="https://npmcdn.com/redux@latest/dist/redux.min.js"></script>
+</head>
+<body>
+<div>
+    <p>
+        <input type="number" id="numberEl"/>
+        <input type="range" id="rangeEl"/>
+    </p>
+</div>
+<script>
+    function counter(state, action) {
+        if (typeof state === 'undefined') {
+            return 0
+        }
+
+        if(isNaN(action.type))
+        {
+            return 0;
+        }
+        else
+        {
+            return action.type;
+        }
+    }
+
+    var store = Redux.createStore(counter);
+    var rangeEl = document.getElementById('rangeEl');
+    var numberEl = document.getElementById('numberEl');
+
+    function render() {
+        rangeEl.value = store.getState().toString();
+        numberEl.value = store.getState().toString();
+    }
+
+    render()
+    store.subscribe(render)
+    function changedStore()
+    {
+        store.dispatch({ type: this.value });
+    }
+    document.getElementById('numberEl').addEventListener('input', changedStore)
+    document.getElementById('rangeEl').addEventListener('change', changedStore)
+</script>
+</body>
+</html>
