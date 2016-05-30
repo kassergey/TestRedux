@@ -6,44 +6,38 @@
 </head>
 <body>
 <div>
-    <p>
-        <input type="number" id="numberEl"/>
-        <input type="range" id="rangeEl"/>
-    </p>
+    <form>
+        <label for="nameEl">Name:<input type="text" id="nameEl"/></label><br/>
+        <label for="surnameEl">Surname:<input type="text" id="surnameEl"/></label><br/>
+        <label for="ageEl">Age:<input type="text" id="ageEl"/></label><br/>
+        <label for="isTheBestEl">Is the best friend:<input type="checkbox" id="isTheBestEl"/></label><br/>
+        <button>Add</button>
+    </form>
 </div>
 <script>
     function counter(state, action) {
-        if (typeof state === 'undefined') {
-            return 0
-        }
-
-        if(isNaN(action.type))
+        if(action.type=="addFriend")
         {
-            return 0;
+            return state.concat({});
         }
-        else
-        {
-            return action.type;
-        }
+        return state;
     }
 
-    var store = Redux.createStore(counter);
+    var store = Redux.createStore(counter, 0);
     var rangeEl = document.getElementById('rangeEl');
     var numberEl = document.getElementById('numberEl');
 
     function render() {
-        rangeEl.value = store.getState().toString();
-        numberEl.value = store.getState().toString();
+        rangeEl.value = store.toString();
+        numberEl.value = store.toString();
     }
 
-    render()
-    store.subscribe(render)
-    function changedStore()
+    render(0);
+    store.subscribe(render);
+    function changedStore(value)
     {
-        store.dispatch({ type: this.value });
+        store.dispatch({ type: "increment", data:value });
     }
-    document.getElementById('numberEl').addEventListener('input', changedStore)
-    document.getElementById('rangeEl').addEventListener('change', changedStore)
 </script>
 </body>
 </html>

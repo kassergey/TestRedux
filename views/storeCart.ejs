@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Redux basic example</title>
+    <script src="https://npmcdn.com/redux@latest/dist/redux.min.js"></script>
+</head>
+<body>
+<div>
+    <p>
+        <input type="number" id="numberEl"/>
+        <input type="range" id="rangeEl"/>
+    </p>
+</div>
+<script>
+    function counter(state, action) {
+        if(action.type=="increment")
+        {
+            return action.data;
+        }
+        return state;
+    }
+
+    var store = Redux.createStore(counter, 0);
+    var rangeEl = document.getElementById('rangeEl');
+    var numberEl = document.getElementById('numberEl');
+
+    function render(value) {
+        rangeEl.value = value.toString();
+        numberEl.value = value.toString();
+    }
+
+    render(0);
+    store.subscribe(render);
+    function changedStore(value)
+    {
+        store.dispatch({ type: "increment", data:value });
+    }
+    document.getElementById('numberEl').addEventListener('input', function() {changedStore(this.value);});
+    document.getElementById('rangeEl').addEventListener('change', function() {changedStore(this.value);});
+</script>
+</body>
+</html>
